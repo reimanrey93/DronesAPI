@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Panel para administrar una flota de drones">
+    <title>Gestión de drones</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">OPERACIONES</p>
+          <h1>Gestión de drones</h1>
+          <p class="subtitle">Administra el inventario y el estado de tu flota.</p>
+        </div>
+        <div class="fleet-count" aria-live="polite">
+          <strong id="drone-count">0</strong>
+          <span>drones en la lista</span>
+        </div>
+      </header>
+
+      <section class="panel form-panel" aria-labelledby="form-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">INVENTARIO</p>
+            <h2 id="form-title">Registrar un drone</h2>
+          </div>
+        </div>
+        <form id="drone-form">
+          <input id="drone-id" type="hidden">
+          <div class="form-grid">
+            <label>
+              Número de serie
+              <input id="serial-number" name="serial_number" maxlength="64" required
+                     placeholder="Ej. DRN-001">
+            </label>
+            <label>
+              Modelo
+              <input id="model" name="model" maxlength="100" required
+                     placeholder="Ej. Explorer X2">
+            </label>
+            <label>
+              Estado
+              <select id="status" name="status">
+                <option value="available">Disponible</option>
+                <option value="in_mission">En misión</option>
+                <option value="maintenance">En mantenimiento</option>
+              </select>
+            </label>
+            <label>
+              Batería <span class="label-hint">(0-100%)</span>
+              <input id="battery-level" name="battery_level" type="number" min="0" max="100"
+                     value="100" required>
+            </label>
+            <label>
+              Ubicación
+              <input id="location" name="location" maxlength="150"
+                     placeholder="Ej. Hangar norte">
+            </label>
+            <label class="notes-field">
+              Notas
+              <input id="notes" name="notes" placeholder="Información adicional">
+            </label>
+          </div>
+          <div class="form-actions">
+            <button id="submit-button" class="button button-primary" type="submit">
+              Guardar drone
+            </button>
+            <button id="cancel-edit" class="button button-secondary hidden" type="button">
+              Cancelar edición
+            </button>
+            <p id="form-message" class="form-message" role="status"></p>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel fleet-panel" aria-labelledby="fleet-title">
+        <div class="section-heading fleet-heading">
+          <div>
+            <p class="eyebrow">FLOTA</p>
+            <h2 id="fleet-title">Drones registrados</h2>
+          </div>
+          <div class="filters">
+            <label class="search-label">
+              <span class="sr-only">Buscar por serie o modelo</span>
+              <input id="search" type="search" placeholder="Buscar drone...">
+            </label>
+            <label>
+              <span class="sr-only">Filtrar por estado</span>
+              <select id="status-filter">
+                <option value="">Todos los estados</option>
+                <option value="available">Disponible</option>
+                <option value="in_mission">En misión</option>
+                <option value="maintenance">En mantenimiento</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <p id="list-message" class="list-message" role="status"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Drone</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Batería</th>
+                <th scope="col">Ubicación</th>
+                <th scope="col"><span class="sr-only">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody id="drone-list"></tbody>
+          </table>
+        </div>
+        <div id="empty-state" class="empty-state hidden">
+          <span class="empty-icon" aria-hidden="true">⌁</span>
+          <h3>No hay drones para mostrar</h3>
+          <p>Registra un drone o cambia los filtros de búsqueda.</p>
+        </div>
+      </section>
+      <footer>Drone Manager <span>·</span> Panel de inventario</footer>
+    </main>
+  </body>
+</html>
